@@ -51,6 +51,16 @@ rules:
   - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
 
   # ============================
+  # 自建 VPS / 3x-ui 面板 / 节点域名：直连
+  # ============================
+  - DOMAIN,changhongsky.125152.xyz,DIRECT
+  - DOMAIN,raksmart.125152.xyz,DIRECT
+  - DOMAIN,hk666.125152.xyz,DIRECT
+  - IP-CIDR,95.169.6.181/32,DIRECT,no-resolve
+  - IP-CIDR,104.233.148.156/32,DIRECT,no-resolve
+  - IP-CIDR,154.36.145.90/32,DIRECT,no-resolve
+
+  # ============================
   # 流媒体：香港自动选择
   # ============================
   - GEOSITE,youtube,香港自动
@@ -67,7 +77,6 @@ rules:
   - GEOIP,CN,DIRECT,no-resolve
 
   # ============================
-  # 默认：美国自动选择
-  # 必须始终放在最后
+  # 其他境外：美国自动选择
   # ============================
   - MATCH,美国自动
