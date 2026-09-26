@@ -1,0 +1,73 @@
+# ==================================================
+# 跨设备共用分流：
+# 中国大陆/局域网直连；
+# YouTube、Netflix、Disney+ → 香港自动；
+# 其余境外 → 美国自动。
+#
+# 节点由 3x-ui 自动生成，本文件不包含 proxies:。
+# 节点名称必须形如：
+# HK-01-Reality / HK-01-Hysteria2
+# US-01-Reality / US-01-Hysteria2
+# US-02-Reality / US-02-Hysteria2
+# ==================================================
+
+proxy-groups:
+  # 流媒体：仅从香港节点里自动选延迟更低者
+  - name: 香港自动
+    type: url-test
+    include-all: true
+    filter: '^HK-'
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    lazy: true
+
+  # 普通海外流量：仅从美国节点里自动选延迟更低者
+  - name: 美国自动
+    type: url-test
+    include-all: true
+    filter: '^US-'
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    lazy: true
+
+  # 手动排障入口；通常不作为最终规则目标
+  - name: PROXY
+    type: select
+    proxies:
+      - 香港自动
+      - 美国自动
+      - DIRECT
+
+rules:
+  # ============================
+  # 私网与局域网：永远直连
+  # ============================
+  - GEOSITE,private,DIRECT
+  - GEOIP,private,DIRECT,no-resolve
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+
+  # ============================
+  # 流媒体：香港自动选择
+  # ============================
+  - GEOSITE,youtube,香港自动
+  - GEOSITE,netflix,香港自动
+  - GEOSITE,disney,香港自动
+  - DOMAIN-SUFFIX,disneyplus.com,香港自动
+  - DOMAIN-SUFFIX,disney-plus.net,香港自动
+  - DOMAIN-SUFFIX,disney.com,香港自动
+
+  # ============================
+  # 中国大陆：直连
+  # ============================
+  - GEOSITE,CN,DIRECT
+  - GEOIP,CN,DIRECT,no-resolve
+
+  # ============================
+  # 默认：美国自动选择
+  # 必须始终放在最后
+  # ============================
+  - MATCH,美国自动
