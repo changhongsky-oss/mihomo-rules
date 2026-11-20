@@ -57,11 +57,13 @@ rules:
   - DOMAIN,raksmart.125152.xyz,DIRECT
   - DOMAIN,hk666.125152.xyz,DIRECT
   - DOMAIN,hkaws.125152.xyz,DIRECT
+  - DOMAIN,radsmart2.125152.xyz,DIRECT
   - DOMAIN,changhongsky.synology.me,DIRECT
   - IP-CIDR,95.169.6.181/32,DIRECT,no-resolve
   - IP-CIDR,104.233.148.156/32,DIRECT,no-resolve
   - IP-CIDR,154.36.144.88/32,DIRECT,no-resolve
   - IP-CIDR,43.199.154.252/32,DIRECT,no-resolve
+  - IP-CIDR,104.233.230.153/32,DIRECT,no-resolve
 
   # ============================
   # 流媒体：香港自动选择
